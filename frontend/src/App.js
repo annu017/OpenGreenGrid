@@ -159,7 +159,7 @@ function App() {
 
     const interval = setInterval(fetchEnergy, 3000);
     return () => clearInterval(interval);
-  }, [weather, gridLoad, liveSimulation]);
+  }, [weather, gridLoad, liveSimulation, homes.length]);
 
   return (
     <div className="min-h-screen bg-black text-white p-8">
