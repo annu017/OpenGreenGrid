@@ -3,22 +3,9 @@ const cors = require("cors");
 
 const app = express();
 
-const allowedOrigins = [
-  "http://localhost:3000",
-  process.env.FRONTEND_URL
-].filter(Boolean);
 
-app.use(
-  cors({
-    origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    }
-  })
-);
+
+app.use(cors());
 
 const cityAssets = [
   { id: 1, house: "Home 1", area: "Connaught Place", zone: "Commercial", type: "Smart Home", latitude: 28.6315, longitude: 77.2167 },
