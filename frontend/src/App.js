@@ -192,6 +192,7 @@ function App() {
       <h1 className="text-5xl font-bold text-green-400 mb-10 text-center">
         OpenGreenGrid Autonomous Smart City
       </h1>
+      <h1>TEST DEPLOY 123</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
         <MetricCard title="Total City Assets" value={engine.homes.length} border="border-cyan-400" text="text-cyan-300" />
