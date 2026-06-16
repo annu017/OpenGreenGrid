@@ -23,6 +23,8 @@ import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
+console.log("API_URL =", API_URL);
+
 delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
@@ -128,28 +130,38 @@ function App() {
 
   useEffect(() => {
     const fetchEnergy = () => {
-      fetch(`${API_URL}/energy?weather=${weather}&gridLoad=${gridLoad}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setHomes(data.homes || []);
-          setTrades(data.trades || []);
-          setPredictions(data.predictions || []);
-          setAlerts(data.alerts || []);
-          setCityImpact(data.cityImpact || null);
+  console.log(
+    "Calling API:",
+    `${API_URL}/energy?weather=${weather}&gridLoad=${gridLoad}`
+  );
 
-          setChartData((prev) => [
-            ...prev.slice(-9),
-            {
-              time: new Date().toLocaleTimeString(),
-              generated: data.grid?.totalGenerated || 0,
-              consumed: data.grid?.totalConsumed || 0
-            }
-          ]);
-        })
-        .catch((error) => {
-          console.error("Energy API error:", error);
-        });
-    };
+  fetch(`${API_URL}/energy?weather=${weather}&gridLoad=${gridLoad}`)
+    .then((res) => {
+      console.log("Response Status:", res.status);
+      return res.json();
+    })
+    .then((data) => {
+      console.log("API Data:", data);
+
+      setHomes(data.homes || []);
+      setTrades(data.trades || []);
+      setPredictions(data.predictions || []);
+      setAlerts(data.alerts || []);
+      setCityImpact(data.cityImpact || null);
+
+      setChartData((prev) => [
+        ...prev.slice(-9),
+        {
+          time: new Date().toLocaleTimeString(),
+          generated: data.grid?.totalGenerated || 0,
+          consumed: data.grid?.totalConsumed || 0,
+        },
+      ]);
+    })
+    .catch((error) => {
+      console.error("Energy API error:", error);
+    });
+};
 
     if (!liveSimulation && homes.length > 0) return;
 
